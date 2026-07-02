@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Kush(Bubu)! ❤️</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+    background: #fff5f8; 
+    color: #4a3b52;
+    overflow-x: hidden;
+    overflow-y: auto;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- Welcome Screen --- */
+#welcome-screen {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, #ffe3ec, #f0e6ff);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: all 1s cubic-bezier(0.74, 0.03, 0.27, 1);
+}
+
+.gift-box {
+    font-size: 100px;
+    cursor: pointer;
+    animation: bounce 1.5s infinite alternate, wobble 2s infinite;
+}
+
+@keyframes wobble {
+    0% { transform: rotate(0deg); }
+    15% { transform: rotate(-8deg); }
+    30% { transform: rotate(6deg); }
+    45% { transform: rotate(-4deg); }
+    60% { transform: rotate(2deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-20px); }
+}
+
+.open-btn {
+    margin-top: 30px;
+    padding: 16px 45px;
+    font-size: 24px;
+    font-weight: bold;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(45deg, #ff758c, #ff7eb3);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(255, 117, 140, 0.4);
+    transition: 0.3s;
+}
+.open-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 15px 30px rgba(255, 117, 140, 0.6);
+}
+
+/* --- Main Content Layout --- */
+#main-content {
+    opacity: 0;
+    visibility: hidden;
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 15px;
+    background: linear-gradient(to bottom, #fff5f8, #f5efff);
+}
+
+.main-title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    background: linear-gradient(45deg, #ff477e, #b5179e, #7209b7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 4px 10px rgba(114, 9, 183, 0.1);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* --- Interactive Cake --- */
+.cake-section {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 10;
+}
+.cake {
+    position: relative;
+    width: 160px; height: 100px;
+    background: #ff8fa3;
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 10px #ff758c, inset 0 15px rgba(255,255,255,0.5);
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+.cake::before {
+    content: ''; position: absolute; bottom: -15px; left: -20px;
+    width: 200px; height: 15px; background: #fff; border-radius: 50px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+.candle {
+    position: absolute; top: -35px; left: 50%;
+    width: 10px; height: 35px; background: linear-gradient(#b5179e, #fff);
+    transform: translateX(-50%);
+    border-radius: 4px;
+}
+.flame {
+    position: absolute; top: -15px; left: 50%;
+    width: 14px; height: 20px; background: #ffca28;
+    border-radius: 50% 50% 20% 20%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 15px #ffca28;
+    animation: flicker 0.15s infinite alternate;
+}
+@keyframes flicker {
+    0% { transform: translateX(-50%) scale(1) rotate(-2deg); }
+    100% { transform: translateX(-50%) scale(1.1) rotate(3deg); }
+}
+.cake.cut { transform: scale(0.95); background: #f08080; }
+.cake.cut .flame { display: none; }
+.cake.cut::after {
+    content: '🍰 CELEBRATION TIME! 🍰'; position: absolute; top: -50px; left: -20px;
+    width: 200px; text-align: center; font-weight: bold; color: #ff477e; text-shadow: 0 0 10px rgba(255,71,126,0.2); font-size: 18px;
+}
+
+/* --- Premium Photo Show Frame --- */
+#photo-showcase {
+    width: 100%;
+    max-width: 500px;
+    margin: 30px auto;
+    display: none; 
+    animation: fadeInUp 1s ease forwards;
+    z-index: 20;
+}
+
+.photo-frame {
+    width: 100%;
+    height: 400px;
+    border: 8px solid #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(114,9,183,0.15), 0 0 20px rgba(255, 117, 140, 0.2);
+    position: relative;
+    background: #fdfafb;
+}
+
+.slide-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0; left: 0;
+    opacity: 0;
+    transform: scale(1.1);
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+}
+.slide-img.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Message Card --- */
+.message-card {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.6);
+    padding: 30px;
+    border-radius: 25px;
+    max-width: 600px;
+    width: 100%;
+    margin-top: 20px;
+    box-shadow: 0 15px 35px rgba(114,9,183,0.08);
+    text-align: center;
+    z-index: 20;
+}
+#typing-text {
+    font-size: 1.3rem;
+    line-height: 1.7;
+    font-weight: 500;
+    color: #4a3b52;
+}
+
+/* --- Floating Elements --- */
+.particle {
+    position: fixed;
+    bottom: -100px;
+    pointer-events: none;
+    animation: floatUp linear infinite;
+    z-index: 99;
+    user-select: none;
+}
+@keyframes floatUp {
+    0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-120vh) translateX(100px) rotate(360deg); opacity: 0; }
+}
+
+canvas#fireworks {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.audio-ctrl {
+    position: fixed; top: 20px; right: 20px;
+    z-index: 101; background: linear-gradient(45deg, #ff758c, #b5179e);
+    border: none; padding: 12px 20px; border-radius: 30px;
+    color: white; cursor: pointer; font-size: 14px; font-weight: bold;
+    box-shadow: 0 5px 15px rgba(255, 117, 140, 0.3);
+}
+
+@media (max-width: 600px) {
+    .main-title { font-size: 2.2rem; }
+    .photo-frame { height: 350px; }
+    #typing-text { font-size: 1.1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- 100% Working Happy Birthday Online Music Track Added Below -->
+<audio id="bg-music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" loop></audio>
+<button class="audio-ctrl" onclick="toggleMusic()">🎵 Music: On/Off</button>
+
+<!-- Welcome Screen -->
+<div id="welcome-screen">
+    <div class="gift-box" onclick="openGift()">🎁</div>
+    <h2 style="margin-top:20px; color:#b5179e; font-size:32px; letter-spacing: 1px;">A suprise waiting for you ...</h2>
+    <p style="color: #7a6e85; margin-top: 10px;"> click on Gift Box!</p>
+    <button class="open-btn" onclick="openGift()">Open Gift ❤️</button>
+</div>
+
+<!-- Main Celebration Page -->
+<div id="main-content">
+    <canvas id="fireworks"></canvas>
+
+    <h1 class="main-title">🎂 Happy Birthday meri rasmalai! 🎂</h1>
+
+    <!-- Interactive Cake -->
+    <div class="cake-section" id="cake-wrapper">
+        <h3 id="cake-hint" style="margin-bottom: 20px; color:#b5179e; text-shadow:0 0 10px rgba(181,23,158,0.1); font-size: 20px;">👇 Cake Cut Karo! 👇</h3>
+        <div class="cake" onclick="cutCake(this)">
+            <div class="candle"><div class="flame"></div></div>
+        </div>
+    </div>
+
+    <!-- Live Premium Center Showcase -->
+    <div id="photo-showcase">
+        <div class="photo-frame">
+            <img class="slide-img active" src="1.jpg" alt="Kush 1">
+            <img class="slide-img" src="2.jpg" alt="Kush 2">
+            <img class="slide-img" src="3.jpeg" alt="Kush 3">
+            <img class="slide-img" src="4.jpeg" alt="Kush 4">
+            <img class="slide-img" src="5.jpeg" alt="Kush 5">
+            <img class="slide-img" src="6.jpeg" alt="Kush 6">
+            <img class="slide-img" src="7.jpeg" alt="Kush 7">
+            <img class="slide-img" src="8.jpeg" alt="Kush 8">
+        </div>
+    </div>
+
+    <!-- Letter Card -->
+    <div class="message-card">
+        <p id="typing-text">waiting for cake cutting... ✨</p>
+    </div>
+</div>
+
+<script>
+const music = document.getElementById('bg-music');
+function toggleMusic() {
+    if (music.paused) { music.play(); } 
+    else { music.pause(); }
+}
+
+function openGift() {
+    document.getElementById('welcome-screen').style.opacity = '0';
+    document.getElementById('welcome-screen').style.transform = 'scale(0.8)';
+    setTimeout(() => {
+        document.getElementById('welcome-screen').style.visibility = 'hidden';
+        const main = document.getElementById('main-content');
+        main.style.visibility = 'visible';
+        main.style.opacity = '1';
+        
+        music.play().catch(e => console.log("Autoplay handled"));
+        startFloatingParticles();
+    }, 1000);
+}
+
+// --- Dynamic Photo Transition Grid ---
+let currentIdx = 0;
+const photos = document.querySelectorAll('.slide-img');
+function startPremiumSlideshow() {
+    setInterval(() => {
+        if(photos.length === 0) return;
+        photos[currentIdx].classList.remove('active');
+        currentIdx = (currentIdx + 1) % photos.length;
+        photos[currentIdx].classList.add('active');
+    }, 3000);
+}
+
+function cutCake(cakeElement) {
+    if(cakeElement.classList.contains('cut')) return;
+    
+    cakeElement.classList.add('cut');
+    document.getElementById('cake-hint').style.display = 'none';
+    
+    document.getElementById('photo-showcase').style.display = 'block';
+    startPremiumSlideshow();
+    
+    celebrationActive = true;
+    initFireworks();
+    
+    for(let i=0; i<60; i++) {
+        setTimeout(() => createParticle(true), i * 50); 
+    }
+    
+    document.getElementById("typing-text").innerHTML = "";
+    startTyping();
+}
+
+const wishText = `Happy Birthday, My Love! ❤️
+
+You are my biggest happiness and my favorite person.
+I feel so lucky to have you in my life.
+May all your dreams come true and may your smile always stay the same.
+Wishing you endless love, success, and happiness.
+I love you more than words can say. 🎂💖`;
+
+let charIndex = 0;
+
+function startTyping() {
+    const textContainer = document.getElementById("typing-text");
+    function type() {
+        if (charIndex < wishText.length) {
+            textContainer.innerHTML += wishText.charAt(charIndex);
+            charIndex++;
+            setTimeout(type, 45);
+        }
+    }
+    type();
+}
+
+// --- Multi-Element Particle Engine ---
+const emojis = ['🎈', '🎉', '✨', '💖', '🎊', '⭐', '💝', '🌸', '👑'];
+function startFloatingParticles() {
+    setInterval(() => {
+        createParticle(false);
+    }, 300);
+}
+
+function createParticle(isBlast) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+    p.style.left = Math.random() * 100 + "%";
+    p.style.fontSize = (Math.random() * 30 + 20) + "px";
+    
+    let duration = Math.random() * 4 + 4;
+    if(isBlast) {
+        duration = Math.random() * 3 + 2;
+        p.style.left = (Math.random() * 90) + "%";
+    }
+    
+    p.style.animationDuration = duration + "s";
+    document.body.appendChild(p);
+    setTimeout(() => { p.remove(); }, duration * 1000);
+}
+
+// --- Colorful Light Fireworks Engine ---
+const canvas = document.getElementById('fireworks');
+const ctx = canvas.getContext('2d');
+let celebrationActive = false;
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+let particles = [];
+class FireworkParticle {
+    constructor(x, y, color) {
+        this.x = x; this.y = y; this.color = color;
+        this.radius = Math.random() * 3.5 + 1;
+        this.velocity = {
+            x: (Math.random() - 0.5) * 10,
+            y: (Math.random() - 0.5) * 10
+        };
+        this.alpha = 1;
+    }
+    draw() {
+        ctx.save();
+        ctx.globalAlpha = this.alpha;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.restore();
+    }
+    update() {
+        this.velocity.y += 0.06;
+        this.x += this.velocity.x;
+        this.y += this.velocity.y;
+        this.alpha -= 0.01;
+    }
+}
+
+function spawnFirework() {
+    if(!celebrationActive) return;
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * (canvas.height * 0.5);
+    const colors = ['#ff477e', '#ff758c', '#b5179e', '#7209b7', '#4cc9f0', '#ffb703'];
+    const chosenColor = colors[Math.floor(Math.random() * colors.length)];
+    
+    for (let i = 0; i < 50; i++) {
+        particles.push(new FireworkParticle(x, y, chosenColor));
+    }
+}
+
+function animateFireworks() {
+    requestAnimationFrame(animateFireworks);
+    ctx.fillStyle = 'rgba(255, 245, 248, 0.25)'; 
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    particles.forEach((particle, index) => {
+        if (particle.alpha <= 0) {
+            particles.splice(index, 1);
+        } else {
+            particle.update();
+            particle.draw();
+        }
+    });
+}
+
+function initFireworks() {
+    animateFireworks();
+    setInterval(spawnFirework, 500);
+}
+</script>
+</body>
+</html>
